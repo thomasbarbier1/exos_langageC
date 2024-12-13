@@ -7,6 +7,8 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #define H 10
 #define L 10
@@ -39,49 +41,10 @@ int main(){
         {0,0,0,0,0,0,0,0,0,0}  // 9
     };
 
-    printf("Test de affiche_cellule(depart[1][4]): ");
-    affiche_cellule(depart[1][4]);
-    printf("\n");
-
-    printf("Test de affiche_terrain(int etat):\n");
-    affiche_terrain(depart);
-
-    printf("Test de copie_terrain(int)");
-    int destination[H][L];
-    copie_terrain(depart, destination);
-    affiche_terrain(destination);
-
-    printf("Test de etat_cellule(depart, 7, 4): ");
-    int etat = etat_cellule(depart, 7, 4);
-    printf("%d\n", etat);
-
-    printf("Test de int voisinage_cellule(depart, 2, 4): ");
-    int nb_cell = voisinage_cellule(depart, 2, 4);
-    printf("%d\n", nb_cell);
-
-    printf("Test de void calcule_voisinage(depart, voisins):");
-    int voisins[H][L];
-    calcule_voisinage(depart, voisins);
-    affiche_voisinages(voisins);
-
-    printf("Test de int regle_du_jeu(4, 5): ");
-    etat    = etat_cellule(depart, 4, 5);
-    nb_cell = voisinage_cellule(depart, 4, 5);
-    int test_regle_du_jeu = regle_du_jeu(etat, nb_cell);
-    printf("%d\n", test_regle_du_jeu);
-
-    printf("Test de int regle_du_jeu(5, 4): ");
-    etat    = etat_cellule(depart, 5, 4);
-    nb_cell = voisinage_cellule(depart, 5, 4);
-    test_regle_du_jeu = regle_du_jeu(etat, nb_cell);
-    printf("%d\n", test_regle_du_jeu);
-
-    printf("Test de void nouvelle_generation(depart, voisins):\n");
-    nouvelle_generation(depart, voisins);
-    affiche_terrain(depart);
-
-    printf("Test de void affiche_evolution(terrain, 12):\n");
-    affiche_evolution(depart, 12);
+    int generation;
+    printf("Entrer le generation a afficher: ");
+    scanf("%d", &generation);
+    affiche_evolution(depart, generation);
 
     return 0;
 }
@@ -218,11 +181,13 @@ void affiche_evolution(int terrain[H][L], int nb_generations){
 
     for(int i=0; i<=nb_generations; i++){
 
-        printf("\n########################## Generation %d:", i);
+        system("cls");
+        // printf("\n########################## Generation %d:", i);
         affiche_terrain(copie);
         calcule_voisinage(copie, voisins);
-        printf("          ----------");
-        affiche_voisinages(voisins);
+        // printf("          ----------");
+        // affiche_voisinages(voisins);
         nouvelle_generation(copie, voisins);
+        usleep(100000);
     }
 }
